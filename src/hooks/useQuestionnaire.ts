@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { Answer, Question, QUESTIONS } from '../types';
 import { evaluateGender, GenderResult } from '../utils/evaluateGender';
 
-const QUESTIONS_TO_ASK = 15;
+const QUESTIONS_TO_ASK = 20;
 
 function shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];

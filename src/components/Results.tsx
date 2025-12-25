@@ -23,6 +23,26 @@ const Results: React.FC<ResultsProps> = ({ result, onRestart }) => {
         }
     };
 
+    const getIQColor = () => {
+        if (result.iq >= 145) return '#FFD700'; // Gold
+        if (result.iq >= 130) return '#4CAF50'; // Green
+        if (result.iq >= 115) return '#8BC34A'; // Light green
+        if (result.iq >= 100) return '#667eea'; // Theme purple
+        if (result.iq >= 85) return '#FF9800'; // Orange
+        if (result.iq >= 70) return '#FF5722'; // Deep orange
+        return '#F44336'; // Red
+    };
+
+    const getIQEmoji = () => {
+        if (result.iq >= 145) return '🧠✨';
+        if (result.iq >= 130) return '🧠';
+        if (result.iq >= 115) return '📚';
+        if (result.iq >= 100) return '😐';
+        if (result.iq >= 85) return '🤔';
+        if (result.iq >= 70) return '😅';
+        return '🥴';
+    };
+
     return (
         <div className="results-container">
             <div className="result-emoji">{getGenderEmoji()}</div>
@@ -34,6 +54,48 @@ const Results: React.FC<ResultsProps> = ({ result, onRestart }) => {
                 Confidence: <span className="confidence-value">{result.confidence}%</span>
             </div>
             <p className="result-message">{result.funnyMessage}</p>
+            
+            {/* IQ Section - integrated into the card */}
+            <div style={{
+                background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+                borderRadius: '12px',
+                padding: '12px 16px',
+                marginBottom: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                border: '1px solid #dee2e6',
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '1.5rem' }}>{getIQEmoji()}</span>
+                    <div>
+                        <div style={{ 
+                            fontSize: '0.7rem', 
+                            color: '#666',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px',
+                            fontWeight: '600'
+                        }}>
+                            IQ Score
+                        </div>
+                        <div style={{ 
+                            fontSize: '0.75rem', 
+                            color: '#888',
+                        }}>
+                            {result.iqMessage}
+                        </div>
+                    </div>
+                </div>
+                <div style={{ 
+                    fontSize: '1.8rem', 
+                    fontWeight: 'bold', 
+                    color: getIQColor(),
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.1)',
+                }}>
+                    {result.iq}
+                </div>
+            </div>
+            
             <button className="button restart-button" onClick={onRestart}>
                 🔄 Try Again
             </button>
