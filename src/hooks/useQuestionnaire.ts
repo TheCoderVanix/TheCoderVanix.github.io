@@ -13,9 +13,30 @@ function shuffleArray<T>(array: T[]): T[] {
     return shuffled;
 }
 
+// Select questions with balanced distribution to avoid too many of one type
+function selectBalancedQuestions(): Question[] {
+    // IQ-heavy questions (should be limited)
+    const iqQuestionIds = [106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 141, 142, 143, 144, 145];
+    
+    const iqQuestions = QUESTIONS.filter(q => iqQuestionIds.includes(q.id));
+    const regularQuestions = QUESTIONS.filter(q => !iqQuestionIds.includes(q.id));
+    
+    // Shuffle both pools
+    const shuffledIQ = shuffleArray(iqQuestions);
+    const shuffledRegular = shuffleArray(regularQuestions);
+    
+    // Take at most 3-4 IQ questions, rest are regular personality questions
+    const maxIQQuestions = Math.floor(Math.random() * 2) + 3; // 3-4 IQ questions
+    const selectedIQ = shuffledIQ.slice(0, maxIQQuestions);
+    const selectedRegular = shuffledRegular.slice(0, QUESTIONS_TO_ASK - selectedIQ.length);
+    
+    // Combine and shuffle the final selection
+    return shuffleArray([...selectedIQ, ...selectedRegular]);
+}
+
 export function useQuestionnaire() {
     const [selectedQuestions] = useState<Question[]>(() => 
-        shuffleArray(QUESTIONS).slice(0, QUESTIONS_TO_ASK)
+        selectBalancedQuestions()
     );
     const [answers, setAnswers] = useState<Answer[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
