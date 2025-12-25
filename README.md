@@ -1,8 +1,8 @@
-# GenderGPT™ 🤖
+# IdentityGPT™ 🤖
 
 A totally scientific and definitely accurate gender determination quiz. *(It's a joke, obviously.)*
 
-## 🌐 [Take the Quiz!](https://thecodervanix.github.io/#/GenderGPT)
+## 🌐 [Take the Quiz!](https://thecodervanix.github.io/#/IdentityGPT)
 
 Answer some unhinged questions and discover your true gender, including classics like:
 - 👨 Male / 👩 Female

@@ -6,7 +6,7 @@ const tools = [
     {
         name: 'What Gender Are You?',
         description: 'The most scientifically accurate gender test on the internet*',
-        path: '/GenderGPT',
+        path: '/IdentityGPT',
         emoji: '🔬'
     },
     // Add more tools here in the future
