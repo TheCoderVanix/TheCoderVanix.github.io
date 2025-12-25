@@ -4,10 +4,16 @@ import './Home.css';
 
 const tools = [
     {
-        name: 'What Gender Are You?',
-        description: 'The most scientifically accurate gender test on the internet*',
+        name: 'IdentityGPT™',
+        description: 'The most scientifically accurate identity test on the internet*',
         path: '/IdentityGPT',
-        emoji: '🔬'
+        emoji: '🤖'
+    },
+    {
+        name: 'Plinko Simulator',
+        description: 'Lose fake money like a real gambling addict',
+        path: '/Plinko',
+        emoji: '🎰'
     },
     // Add more tools here in the future
 ];

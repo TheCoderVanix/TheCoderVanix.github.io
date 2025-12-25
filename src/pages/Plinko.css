@@ -1,0 +1,554 @@
+.plinko-page {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #080d12 0%, #0d1520 40%, #0a1118 100%);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.plinko-layout {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 30px);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Controls Panel - Left Side */
+.plinko-controls {
+    width: 300px;
+    min-width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: linear-gradient(180deg, rgba(15, 25, 35, 0.95) 0%, rgba(10, 18, 25, 0.98) 100%);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+}
+
+.plinko-title {
+    font-size: 2rem;
+    margin: 0 0 5px 0;
+    text-align: center;
+    background: linear-gradient(135deg, #ffd700, #ff8c00, #ff6600);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 30px rgba(255, 180, 0, 0.3);
+}
+
+.balance-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.balance-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent);
+}
+
+.balance-label {
+    color: #5a7a8a;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.balance-amount {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00ff88;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+    font-variant-numeric: tabular-nums;
+}
+
+.last-win {
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-variant-numeric: tabular-nums;
+}
+
+.last-win.win {
+    background: linear-gradient(135deg, rgba(0, 255, 100, 0.2), rgba(0, 200, 80, 0.15));
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.last-win.loss {
+    background: linear-gradient(135deg, rgba(255, 50, 50, 0.2), rgba(200, 30, 30, 0.15));
+    color: #ff6666;
+    border: 1px solid rgba(255, 80, 80, 0.3);
+}
+
+@keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    color: #5a7a8a;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bet-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.bet-controls input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition: all 0.2s ease;
+}
+
+.bet-controls input:focus {
+    outline: none;
+    border-color: #ffcc00;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+}
+
+.bet-controls button {
+    padding: 12px 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #2a3a4a 0%, #1f2f3f 100%);
+    color: #aabbcc;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bet-controls button:hover {
+    background: linear-gradient(180deg, #3a4a5a 0%, #2a3a4a 100%);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.bet-controls button:active {
+    transform: translateY(1px);
+}
+
+.option-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.option-buttons button {
+    flex: 1;
+    padding: 12px 10px;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #7a8a9a;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+}
+
+.option-buttons button:hover:not(:disabled) {
+    border-color: rgba(255, 204, 0, 0.5);
+    color: white;
+    background: rgba(255, 204, 0, 0.1);
+}
+
+.option-buttons button.active {
+    background: linear-gradient(135deg, #ffcc00 0%, #ff8800 100%);
+    border-color: transparent;
+    color: #000;
+    box-shadow: 0 4px 15px rgba(255, 180, 0, 0.3);
+}
+
+.option-buttons button:disabled {
+    cursor: not-allowed;
+}
+
+.drop-btn {
+    padding: 18px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00dd66 0%, #00aa44 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 
+        0 4px 20px rgba(0, 200, 100, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    margin-top: auto;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+}
+
+.drop-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 25px rgba(0, 200, 100, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #00ee77 0%, #00bb55 100%);
+}
+
+.drop-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.drop-btn:disabled {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    color: #555;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.reset-small {
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: transparent;
+    color: #556677;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reset-small:hover {
+    border-color: rgba(255, 80, 80, 0.5);
+    color: #ff6666;
+    background: rgba(255, 80, 80, 0.1);
+}
+
+.game-over-panel {
+    text-align: center;
+    padding: 25px;
+    background: linear-gradient(180deg, rgba(255, 50, 50, 0.1) 0%, rgba(200, 30, 30, 0.15) 100%);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    animation: shake 0.5s ease-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(3px); }
+}
+
+.game-over-panel h2 {
+    font-size: 2rem;
+    color: #ff6666;
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 20px rgba(255, 80, 80, 0.4);
+}
+
+.game-over-panel p {
+    color: #8899aa;
+    margin: 0 0 18px 0;
+    font-size: 0.95rem;
+}
+
+.reset-btn {
+    padding: 14px 35px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ffcc00 0%, #ff8800 100%);
+    color: #000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(255, 180, 0, 0.3);
+}
+
+.reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 180, 0, 0.4);
+}
+
+.reset-btn:active {
+    transform: translateY(0);
+}
+
+.disclaimer {
+    margin: 0;
+    padding-top: 10px;
+    color: #3a4a5a;
+    font-size: 0.7rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Game Canvas - Right Side (takes remaining space) */
+.plinko-game {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    background: radial-gradient(ellipse at center, rgba(20, 35, 50, 0.3) 0%, transparent 70%);
+}
+
+.canvas-wrapper {
+    transform-origin: center center;
+    transition: transform 0.3s ease;
+}
+
+.plinko-canvas {
+    display: block;
+    border-radius: 16px;
+    box-shadow: 
+        0 0 50px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(0, 50, 100, 0.15),
+        inset 0 0 80px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Mobile Responsive - Stack vertically */
+@media (max-width: 768px) {
+    .plinko-page {
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .plinko-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 20px);
+        gap: 15px;
+    }
+
+    .plinko-controls {
+        width: 100%;
+        min-width: unset;
+        flex-shrink: unset;
+        order: 2;
+        padding: 18px;
+        gap: 12px;
+        border-radius: 14px;
+    }
+
+    .plinko-title {
+        font-size: 1.6rem;
+    }
+
+    .balance-display {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding: 14px 18px;
+    }
+
+    .balance-label {
+        font-size: 0.7rem;
+    }
+
+    .balance-amount {
+        font-size: 1.6rem;
+    }
+
+    .plinko-game {
+        order: 1;
+        width: 100%;
+        padding: 10px;
+        min-height: 45vh;
+        max-height: 55vh;
+    }
+
+    .plinko-canvas {
+        border-radius: 12px;
+    }
+
+    .bet-controls {
+        flex-wrap: wrap;
+    }
+
+    .bet-controls input {
+        flex: 1 1 50%;
+        padding: 14px 10px;
+    }
+
+    .bet-controls button {
+        flex: 1;
+        min-width: 45px;
+        padding: 14px 10px;
+    }
+
+    .option-buttons button {
+        padding: 14px 8px;
+    }
+
+    .drop-btn {
+        padding: 16px;
+        font-size: 1.1rem;
+    }
+
+    .control-group label {
+        font-size: 0.7rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+    .plinko-page {
+        padding: 8px;
+    }
+
+    .plinko-controls {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .balance-display {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .balance-amount {
+        font-size: 1.4rem;
+    }
+
+    .option-buttons button {
+        padding: 10px 6px;
+        font-size: 0.8rem;
+    }
+
+    .bet-controls button {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+
+    .drop-btn {
+        padding: 14px;
+        font-size: 1rem;
+    }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .plinko-layout {
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    .plinko-controls {
+        width: 220px;
+        min-width: 200px;
+        order: 1;
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .plinko-title {
+        font-size: 1.3rem;
+        margin-bottom: 0;
+    }
+
+    .balance-display {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .balance-amount {
+        font-size: 1.3rem;
+    }
+
+    .plinko-game {
+        order: 2;
+    }
+
+    .option-buttons button {
+        padding: 8px 6px;
+    }
+
+    .bet-controls input,
+    .bet-controls button {
+        padding: 8px;
+    }
+
+    .drop-btn {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    .control-group label {
+        font-size: 0.65rem;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+    .plinko-controls {
+        width: 340px;
+        padding: 28px;
+        gap: 16px;
+    }
+
+    .plinko-title {
+        font-size: 2.2rem;
+    }
+
+    .balance-amount {
+        font-size: 2.2rem;
+    }
+
+    .drop-btn {
+        padding: 20px;
+        font-size: 1.2rem;
+    }
+}

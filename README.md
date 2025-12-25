@@ -1,19 +1,34 @@
-# IdentityGPT™ 🤖
+# TheCoderVanix 🌀
 
-A totally scientific and definitely accurate gender determination quiz. *(It's a joke, obviously.)*
+A collection of weird, unhinged, and oddly entertaining web experiments. Enter at your own risk.
 
-## 🌐 [Take the Quiz!](https://thecodervanix.github.io/#/IdentityGPT)
+## 🎭 What's Here?
 
-Answer some unhinged questions and discover your true gender, including classics like:
+### 🤖 [IdentityGPT™](https://thecodervanix.github.io/#/IdentityGPT)
+*"AI-powered" identity classification (definitely not just vibes)*
+
+Answer some unhinged questions and get assigned an identity archetype. Features dark humor, hidden IQ evaluation, and results including:
 - 👨 Male / 👩 Female
 - 🐺 Sigma Male
-- 🚫👩 Incel / 💔 Femcel  
+- 🚫 Incel / 💔 Femcel  
 - 🤖 NPC
 - 🖤 E-Girl
 - 🎮 Certified Gamer
 - 🖥️ Discord Mod
 - 🚁 Attack Helicopter
 
+*350+ chaotic questions. Secret brain teaser IQ test running in the background.*
+
 ---
 
-*This is satire. Gender is complex and personal - no quiz can actually determine it!* 💜
+## 🔮 Coming Soon™
+More weird stuff. Maybe. Eventually. No promises.
+
+---
+
+## ⚠️ Disclaimer
+Everything here is satire and for entertainment only. Don't take any of this seriously. If you do, that's a you problem.
+
+---
+
+*Built with chaos and questionable decisions* ✨
