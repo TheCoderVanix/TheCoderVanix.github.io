@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { Answer, Question, QUESTIONS } from '../types';
 import { evaluateGender, GenderResult } from '../utils/evaluateGender';
 
