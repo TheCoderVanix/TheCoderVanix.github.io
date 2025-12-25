@@ -1,4 +1,4 @@
-# Gender Checker™ 🔬
+# Gender Diagnostics™ 🔬
 
 A totally scientific and definitely accurate gender determination quiz. *(It's a joke, obviously.)*
 

@@ -4,7 +4,7 @@ import './Home.css';
 
 const tools = [
     {
-        name: 'Gender Quiz',
+        name: 'Gender Diagnostics™',
         description: 'The most scientifically accurate gender test on the internet*',
         path: '/GenderQuiz',
         emoji: '🔬'
