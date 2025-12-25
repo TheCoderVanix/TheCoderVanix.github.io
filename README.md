@@ -23,7 +23,7 @@ A totally scientific and definitely accurate gender determination quiz. *(Spoile
 
 ```bash
 # Clone the repository
-git clone https://github.com/jakeb/GenderQuiz.git
+git clone https://TheCoderVanix.github.io/#/GenderQuiz
 
 # Navigate to project
 cd GenderQuiz

@@ -1,0 +1,15 @@
+.quiz-nav {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem 2rem;
+}
+
+.back-link {
+    color: #00d9ff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #00ff88;
+}
