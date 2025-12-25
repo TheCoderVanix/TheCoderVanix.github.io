@@ -15,8 +15,14 @@ function shuffleArray<T>(array: T[]): T[] {
 
 // Select questions with balanced distribution to avoid too many of one type
 function selectBalancedQuestions(): Question[] {
-    // IQ-heavy questions (should be limited)
-    const iqQuestionIds = [106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 141, 142, 143, 144, 145];
+    // IQ-heavy questions (brain teasers, facts, logic puzzles) - should be limited per quiz
+    const iqQuestionIds = [
+        // Original IQ questions
+        106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+        141, 142, 143, 144, 145,
+        // New expanded IQ questions (161-250)
+        ...Array.from({ length: 90 }, (_, i) => 161 + i)
+    ];
     
     const iqQuestions = QUESTIONS.filter(q => iqQuestionIds.includes(q.id));
     const regularQuestions = QUESTIONS.filter(q => !iqQuestionIds.includes(q.id));
@@ -25,8 +31,8 @@ function selectBalancedQuestions(): Question[] {
     const shuffledIQ = shuffleArray(iqQuestions);
     const shuffledRegular = shuffleArray(regularQuestions);
     
-    // Take at most 3-4 IQ questions, rest are regular personality questions
-    const maxIQQuestions = Math.floor(Math.random() * 2) + 3; // 3-4 IQ questions
+    // Take 4-6 random IQ questions, rest are personality/meme questions
+    const maxIQQuestions = Math.floor(Math.random() * 3) + 4; // 4-6 IQ questions
     const selectedIQ = shuffledIQ.slice(0, maxIQQuestions);
     const selectedRegular = shuffledRegular.slice(0, QUESTIONS_TO_ASK - selectedIQ.length);
     
