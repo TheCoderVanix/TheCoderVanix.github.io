@@ -4,9 +4,9 @@ import './Home.css';
 
 const tools = [
     {
-        name: 'Gender Diagnostics™',
+        name: 'What Gender Are You?',
         description: 'The most scientifically accurate gender test on the internet*',
-        path: '/GenderDiagnostics',
+        path: '/GenderGPT',
         emoji: '🔬'
     },
     // Add more tools here in the future

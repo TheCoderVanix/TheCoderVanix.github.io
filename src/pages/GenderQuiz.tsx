@@ -10,7 +10,7 @@ const GenderQuiz: React.FC = () => {
                 <Link to="/" className="back-link">Back to Home</Link>
             </nav>
             <header className="app-header">
-                <h1 className="app-title">🔬 Gender Diagnostics™</h1>
+                <h1 className="app-title">🤖 GenderGPT™</h1>
                 <p className="app-subtitle">The most scientifically accurate gender test on the internet*</p>
             </header>
             <main className="app-main">

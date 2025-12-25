@@ -9,7 +9,7 @@ const App: React.FC = () => {
         <HashRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/GenderDiagnostics" element={<GenderQuiz />} />
+                <Route path="/GenderGPT" element={<GenderQuiz />} />
             </Routes>
         </HashRouter>
     );
