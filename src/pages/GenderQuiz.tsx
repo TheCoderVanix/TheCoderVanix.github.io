@@ -7,7 +7,7 @@ const GenderQuiz: React.FC = () => {
     return (
         <div className="app-container">
             <nav className="quiz-nav">
-                <Link to="/" className="back-link">← Back to Home</Link>
+                <Link to="/" className="back-link">Back to Home</Link>
             </nav>
             <header className="app-header">
                 <h1 className="app-title">🔬 Gender Checker™</h1>

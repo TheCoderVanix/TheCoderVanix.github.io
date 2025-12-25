@@ -14,6 +14,11 @@ const Results: React.FC<ResultsProps> = ({ result, onRestart }) => {
             case 'Attack Helicopter': return '🚁';
             case 'Certified Gamer': return '🎮';
             case 'Discord Mod': return '🖥️';
+            case 'Incel': return '🚫👩';
+            case 'Femcel': return '💔';
+            case 'NPC': return '🤖';
+            case 'Sigma Male': return '🐺';
+            case 'E-Girl': return '🖤';
             default: return '🤔';
         }
     };
