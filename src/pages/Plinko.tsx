@@ -12,6 +12,7 @@ interface Ball {
     vy: number;
     bet: number;
     lastCollision: number;
+    canEmitSound: boolean; // Limit how many balls can make collision sounds
 }
 
 // Peg with glow effect
@@ -78,51 +79,125 @@ const HORIZONTAL_BOOST = 35; // Random horizontal impulse on collision
 const WALL_BOUNCE = 0.5;
 const COLLISION_BUFFER = 2; // Extra buffer for collision detection
 
-// Audio SFX
-const playSound = (type: 'drop' | 'pin' | 'win' | 'lose') => {
+// Audio SFX - reuse single AudioContext to prevent browser limiting
+let audioContext: AudioContext | null = null;
+
+const getAudioContext = (): AudioContext | null => {
     try {
-        const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        if (!audioContext || audioContext.state === 'closed') {
+            audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+        }
+        // Resume if suspended (browser autoplay policy)
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+        return audioContext;
+    } catch {
+        return null;
+    }
+};
+
+const playSound = (type: 'drop' | 'pin' | 'win' | 'lose' | 'land') => {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    try {
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
         
         oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
+        gainNode.connect(ctx.destination);
+        
+        const now = ctx.currentTime;
         
         switch (type) {
-            case 'drop':
-                oscillator.frequency.value = 400;
+            case 'drop': {
+                // Soft whoosh down
                 oscillator.type = 'sine';
-                gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.08);
+                oscillator.frequency.setValueAtTime(300, now);
+                oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.1);
+                gainNode.gain.setValueAtTime(0.06, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+                oscillator.start(now);
+                oscillator.stop(now + 0.1);
                 break;
-            case 'pin':
-                oscillator.frequency.value = 600 + Math.random() * 400;
+            }
+            case 'pin': {
+                // Soft marimba-like ping with random pitch
+                const baseFreq = 800 + Math.random() * 600;
                 oscillator.type = 'sine';
-                gainNode.gain.setValueAtTime(0.02, audioContext.currentTime);
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.02);
+                oscillator.frequency.setValueAtTime(baseFreq, now);
+                oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 0.7, now + 0.08);
+                gainNode.gain.setValueAtTime(0.03, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                oscillator.start(now);
+                oscillator.stop(now + 0.08);
+                
+                // Add a subtle harmonic
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(baseFreq * 2, now);
+                gain2.gain.setValueAtTime(0.01, now);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc2.start(now);
+                osc2.stop(now + 0.05);
                 break;
-            case 'win':
-                oscillator.frequency.value = 523;
+            }
+            case 'land': {
+                // Satisfying thud + chime for landing
                 oscillator.type = 'sine';
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                oscillator.start();
-                oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-                oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-                oscillator.stop(audioContext.currentTime + 0.3);
+                oscillator.frequency.setValueAtTime(200, now);
+                oscillator.frequency.exponentialRampToValueAtTime(80, now + 0.15);
+                gainNode.gain.setValueAtTime(0.12, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                oscillator.start(now);
+                oscillator.stop(now + 0.15);
+                
+                // Add impact noise
+                const noise = ctx.createOscillator();
+                const noiseGain = ctx.createGain();
+                noise.connect(noiseGain);
+                noiseGain.connect(ctx.destination);
+                noise.type = 'triangle';
+                noise.frequency.setValueAtTime(100, now);
+                noiseGain.gain.setValueAtTime(0.08, now);
+                noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+                noise.start(now);
+                noise.stop(now + 0.1);
                 break;
-            case 'lose':
-                oscillator.frequency.value = 280;
-                oscillator.type = 'sawtooth';
-                gainNode.gain.setValueAtTime(0.06, audioContext.currentTime);
-                oscillator.start();
-                oscillator.frequency.setValueAtTime(180, audioContext.currentTime + 0.15);
-                oscillator.stop(audioContext.currentTime + 0.25);
+            }
+            case 'win': {
+                // Bright ascending arpeggio
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(523, now);
+                oscillator.frequency.setValueAtTime(659, now + 0.08);
+                oscillator.frequency.setValueAtTime(784, now + 0.16);
+                oscillator.frequency.setValueAtTime(1047, now + 0.24);
+                gainNode.gain.setValueAtTime(0.08, now);
+                gainNode.gain.setValueAtTime(0.1, now + 0.08);
+                gainNode.gain.setValueAtTime(0.08, now + 0.16);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                oscillator.start(now);
+                oscillator.stop(now + 0.35);
                 break;
+            }
+            case 'lose': {
+                // Descending sad tone
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(300, now);
+                oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.2);
+                gainNode.gain.setValueAtTime(0.06, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                oscillator.start(now);
+                oscillator.stop(now + 0.25);
+                break;
+            }
         }
     } catch {
-        // Audio not supported
+        // Audio error - ignore
     }
 };
 
@@ -161,6 +236,8 @@ export default function Plinko() {
     const ballIdRef = useRef(0);
     const lastTimeRef = useRef(0);
     const animationRef = useRef<number>();
+    const soundEnabledCountRef = useRef(0);
+    const MAX_SOUND_BALLS = 5;
 
     // Calculate canvas scale based on container size
     // Zoom in more on smaller maps so they appear similar size to 16 rows
@@ -257,6 +334,13 @@ export default function Plinko() {
         playSound('drop');
 
         const { width: canvasWidth } = getCanvasDimensions(rows);
+        
+        // Determine if this ball can emit sounds (max 5 at a time)
+        const canEmitSound = soundEnabledCountRef.current < MAX_SOUND_BALLS;
+        if (canEmitSound) {
+            soundEnabledCountRef.current++;
+        }
+        
         const newBall: Ball = {
             id: ballIdRef.current++,
             x: canvasWidth / 2 + (Math.random() - 0.5) * 8,
@@ -265,6 +349,7 @@ export default function Plinko() {
             vy: 50, // Start with some downward velocity
             bet: betAmount,
             lastCollision: 0,
+            canEmitSound,
         };
 
         ballsRef.current.push(newBall);
@@ -347,8 +432,10 @@ export default function Plinko() {
                         // Trigger glow
                         peg.glow = 1.0;
                         
-                        // Play sound
-                        playSound('pin');
+                        // Play sound only if this ball is allowed to emit sounds
+                        if (ball.canEmitSound) {
+                            playSound('pin');
+                        }
 
                         // Normal vector
                         const nx = dx / distance;
@@ -437,6 +524,21 @@ export default function Plinko() {
                         particles
                     });
                     
+                    // Play landing sound
+                    playSound('land');
+                    
+                    // If this ball was emitting sound, decrement count and potentially enable another ball
+                    if (ball.canEmitSound) {
+                        soundEnabledCountRef.current--;
+                        
+                        // Find a ball that can't emit sound and enable it
+                        const silentBall = ballsRef.current.find(b => !b.canEmitSound && b.id !== ball.id);
+                        if (silentBall && soundEnabledCountRef.current < MAX_SOUND_BALLS) {
+                            silentBall.canEmitSound = true;
+                            soundEnabledCountRef.current++;
+                        }
+                    }
+                    
                     completedBalls.push({ bet: ball.bet, multiplier: bucket.multiplier });
                     ballsRef.current.splice(i, 1);
                 }
@@ -447,19 +549,24 @@ export default function Plinko() {
                 setHasBallsInPlay(false);
             }
 
-            // Process completed balls
+            // Process completed balls - play win/lose sound after a short delay
             if (completedBalls.length > 0) {
                 let totalWin = 0;
                 let totalBet = 0;
                 for (const { bet, multiplier } of completedBalls) {
                     totalWin += bet * multiplier;
                     totalBet += bet;
-                    if (multiplier >= 1) {
+                }
+                
+                // Delayed win/lose sound so it doesn't overlap with land sound
+                setTimeout(() => {
+                    if (totalWin >= totalBet) {
                         playSound('win');
                     } else {
                         playSound('lose');
                     }
-                }
+                }, 150);
+                
                 setBalance(prev => prev + totalWin);
                 setLastWin({ win: totalWin, bet: totalBet });
             }
