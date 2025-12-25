@@ -2,7 +2,7 @@
 
 A totally scientific and definitely accurate gender determination quiz. *(It's a joke, obviously.)*
 
-## 🌐 [Take the Quiz!](https://thecodervanix.github.io/#/GenderQuiz)
+## 🌐 [Take the Quiz!](https://thecodervanix.github.io/#/GenderDiagnostics)
 
 Answer some unhinged questions and discover your true gender, including classics like:
 - 👨 Male / 👩 Female

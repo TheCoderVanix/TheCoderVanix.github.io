@@ -17,7 +17,7 @@ const GenderQuiz: React.FC = () => {
                 <Questionnaire />
             </main>
             <footer className="app-footer">
-                <p>*Not actually scientific. This is a joke. Please don't take it seriously.</p>
+                <p>Accuracy: trust me bro 🙏</p>
             </footer>
         </div>
     );

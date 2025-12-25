@@ -6,7 +6,7 @@ const tools = [
     {
         name: 'Gender Diagnostics™',
         description: 'The most scientifically accurate gender test on the internet*',
-        path: '/GenderQuiz',
+        path: '/GenderDiagnostics',
         emoji: '🔬'
     },
     // Add more tools here in the future
