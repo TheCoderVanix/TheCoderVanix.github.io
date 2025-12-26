@@ -112,14 +112,16 @@ export function evaluateGender(answers: Answer[], questions: Question[] = QUESTI
     let sigmaScore = 0;           // Sigma Male indicator
     let gamerScore = 0;           // Certified Gamer indicator
     let touchGrassScore = 0;      // How chronically online are you
+    let chaosEnergy = 0;          // Attack Helicopter / NPC indicator
 
-    // Questions that indicate specific personality types (by ID)
-    const bitternessQuestions = [33, 43, 44, 50, 56, 66, 67, 68, 69, 70, 94, 101, 123, 125]; // Dating market rigged, face problems, league calculations, depression mindset
-    const onlineQuestions = [30, 32, 34, 38, 58, 76, 77, 78, 79, 80, 98, 99, 100, 146, 147, 148, 149, 150];  // Discord, ratio, VTubers, skill issue, internet slang
-    const sigmaQuestions = [3, 6, 17, 24, 55, 71, 72, 73, 74, 75, 91, 93, 95, 121, 122, 123, 124, 125, 126, 127, 128, 155];  // CEO videos, cold showers, high value, katana, Andrew Tate stuff
-    const gamerQuestions = [9, 36, 40, 46, 47, 86, 87, 88, 89, 90];                  // Lag blame, gaming chair, rage
-    const egirlQuestions = [81, 82, 83, 84, 85, 94, 102, 103, 104, 105, 133, 134, 146, 147, 150, 159, 160];  // Dyed hair, Hot Topic, anime filters, pumpkin spice, dramatic
-    const touchGrassQuestions = [96, 97, 98, 100];                                   // Sun, grass, online vs IRL friends
+    // Questions that indicate specific personality types (by ID) - EXPANDED for more meme gender hits
+    const bitternessQuestions = [33, 43, 44, 50, 56, 66, 67, 68, 69, 70, 94, 101, 123, 125, 268, 270, 271, 272, 274, 315, 316, 317, 318, 319, 321]; // Dating/relationship trauma, emotional unavailability
+    const onlineQuestions = [30, 32, 34, 38, 58, 76, 77, 78, 79, 80, 98, 99, 100, 146, 147, 148, 149, 150, 259, 260, 261, 262, 263, 264, 265, 266];  // Discord, ratio, VTubers, internet culture
+    const sigmaQuestions = [3, 6, 17, 24, 55, 71, 72, 73, 74, 75, 91, 93, 95, 121, 122, 123, 124, 125, 126, 127, 128, 155, 257, 275, 276, 278, 299, 300, 302, 304];  // CEO videos, cold showers, high value, grindset, brutal honesty
+    const gamerQuestions = [9, 36, 40, 46, 47, 86, 87, 88, 89, 90, 262, 307, 308];   // Lag blame, gaming chair, rage, banned from platforms
+    const egirlQuestions = [81, 82, 83, 84, 85, 94, 102, 103, 104, 105, 133, 134, 146, 147, 150, 159, 160, 255, 256, 284, 288, 290, 331, 332, 339, 340, 345];  // Dyed hair, aesthetic, existential vibes, dramatic
+    const touchGrassQuestions = [96, 97, 98, 100, 78, 80, 34, 30];                   // Sun, grass, online vs IRL friends, Discord calls
+    const chaosQuestions = [253, 258, 275, 279, 280, 282, 286, 307, 324, 326, 328, 334, 337, 338, 346]; // Pure chaotic energy questions
 
     // Calculate score based on answers - now both yes AND no have specific weights
     for (const answer of answers) {
@@ -143,36 +145,43 @@ export function evaluateGender(answers: Answer[], questions: Question[] = QUESTI
             // Track personality markers based on specific answers
             if (bitternessQuestions.includes(question.id)) {
                 // Bitterness: saying yes to emotional damage questions OR no to recovery questions
-                if (answer.response && [33, 50, 56, 66, 68, 69, 70, 123, 125].includes(question.id)) bitternessScore += 15;
-                if (!answer.response && [43].includes(question.id)) bitternessScore += 20; // Can't recover from 2009 comment
-                if (answer.response && [44, 67, 101].includes(question.id)) bitternessScore += 12;
+                if (answer.response && [33, 50, 56, 66, 68, 69, 70, 123, 125, 268, 270, 315, 316, 318].includes(question.id)) bitternessScore += 18;
+                if (!answer.response && [43, 269, 271].includes(question.id)) bitternessScore += 22; // Can't recover, cynical about love
+                if (answer.response && [44, 67, 101, 272, 274, 317, 319, 321].includes(question.id)) bitternessScore += 15;
             }
             
             if (onlineQuestions.includes(question.id)) {
-                if (answer.response) onlineScore += 12;
+                if (answer.response) onlineScore += 15; // Increased from 12
                 // Extra points for the really chronically online stuff
-                if (answer.response && [78, 80, 100, 146, 147, 150].includes(question.id)) onlineScore += 8;
+                if (answer.response && [78, 80, 100, 146, 147, 150, 260, 262, 263, 266].includes(question.id)) onlineScore += 12; // Increased from 8
             }
             
             if (sigmaQuestions.includes(question.id)) {
-                if (answer.response) sigmaScore += 12;
+                if (answer.response) sigmaScore += 15; // Increased from 12
                 // Extra points for peak sigma / Andrew Tate behavior
-                if (answer.response && [72, 73, 74, 93, 95, 121, 122, 124, 126, 127, 128].includes(question.id)) sigmaScore += 10;
+                if (answer.response && [72, 73, 74, 93, 95, 121, 122, 124, 126, 127, 128, 257, 275, 299, 300, 304].includes(question.id)) sigmaScore += 12; // Increased from 10
             }
             
             if (gamerQuestions.includes(question.id)) {
-                if (answer.response) gamerScore += 15;
+                if (answer.response) gamerScore += 18; // Increased from 15
                 // Extra points for heated gamer moments
-                if (answer.response && [86, 89, 90].includes(question.id)) gamerScore += 10;
+                if (answer.response && [86, 89, 90, 307, 308].includes(question.id)) gamerScore += 14; // Increased from 10
             }
             
             if (egirlQuestions.includes(question.id)) {
-                if (answer.response) onlineScore += 10; // E-girl also feeds into online score
+                if (answer.response) onlineScore += 14; // Increased from 10, E-girl feeds into online score
             }
             
             if (touchGrassQuestions.includes(question.id)) {
                 // Saying NO to touching grass = more chronically online
-                if (!answer.response) touchGrassScore += 20;
+                if (!answer.response) touchGrassScore += 25; // Increased from 20
+            }
+            
+            if (chaosQuestions.includes(question.id)) {
+                // Track chaotic energy for Attack Helicopter / NPC results
+                if (answer.response) chaosEnergy += 18;
+                // Some questions add chaos regardless of answer
+                if ([279, 337].includes(question.id)) chaosEnergy += 10;
             }
         }
     }
@@ -211,116 +220,144 @@ export function evaluateGender(answers: Answer[], questions: Question[] = QUESTI
         return Math.min(99, Math.max(35, positionConfidence + strengthBonus - chaosPenalty));
     };
 
-    if (chaosFactor > 5 && Math.abs(score) < 100) {
-        // Chaotic answering pattern - pick a random meme gender
-        const memeGenders: Gender[] = ['Attack Helicopter', 'Certified Gamer', 'Discord Mod', 'NPC', 'E-Girl'];
-        gender = memeGenders[Math.floor(Math.random() * memeGenders.length)];
+    // NEW: Check for chaos energy first - high chaos = Attack Helicopter
+    if (chaosEnergy >= 40 || (chaosFactor > 3 && Math.abs(score) < 80)) {
+        // Chaotic answering pattern or high chaos energy
+        if (chaosEnergy >= 60 || Math.random() < 0.6) {
+            gender = 'Attack Helicopter';
+        } else {
+            const memeGenders: Gender[] = ['Certified Gamer', 'Discord Mod', 'NPC', 'E-Girl'];
+            gender = memeGenders[Math.floor(Math.random() * memeGenders.length)];
+        }
         // Confidence based on how chaotic + how indeterminate the score is
-        const chaosConfidence = Math.min(chaosFactor / 10, 1) * 40; // Up to 40% from chaos
-        const indeterminacyConfidence = (1 - Math.abs(score) / 100) * 40; // Up to 40% from low score
-        confidence = 20 + chaosConfidence + indeterminacyConfidence; // Base 20% + bonuses
+        const chaosConfidence = Math.min(chaosFactor / 8, 1) * 45; // Up to 45% from chaos
+        const indeterminacyConfidence = (1 - Math.abs(score) / 80) * 35; // Up to 35% from low score
+        confidence = 25 + chaosConfidence + indeterminacyConfidence; // Base 25% + bonuses
     } 
-    // Check for personality-specific genders first (based on tracked scores)
-    else if (bitternessScore >= 50 && score > 40) {
-        // High bitterness + male-leaning = Incel
+    // Check for personality-specific genders (LOWERED THRESHOLDS)
+    else if (bitternessScore >= 35 && score > 25) {
+        // High bitterness + male-leaning = Incel (lowered from 50/40)
         gender = 'Incel';
-        confidence = calculateConfidence(bitternessScore, 50, 100);
-    } else if (bitternessScore >= 50 && score < -40) {
-        // High bitterness + female-leaning = Femcel
+        confidence = calculateConfidence(bitternessScore, 35, 80);
+    } else if (bitternessScore >= 35 && score < -25) {
+        // High bitterness + female-leaning = Femcel (lowered from 50/-40)
         gender = 'Femcel';
-        confidence = calculateConfidence(bitternessScore, 50, 100);
-    } else if (sigmaScore >= 60 && score > 80) {
-        // High sigma indicators + strong male = Sigma Male
+        confidence = calculateConfidence(bitternessScore, 35, 80);
+    } else if (sigmaScore >= 40 && score > 50) {
+        // High sigma indicators + male = Sigma Male (lowered from 60/80)
         gender = 'Sigma Male';
-        confidence = calculateConfidence(sigmaScore, 60, 120);
-    } else if (gamerScore >= 50 && score > 20) {
-        // High gamer indicators = Certified Gamer
+        confidence = calculateConfidence(sigmaScore, 40, 100);
+    } else if (gamerScore >= 35 && score > 10) {
+        // High gamer indicators = Certified Gamer (lowered from 50/20)
         gender = 'Certified Gamer';
-        confidence = calculateConfidence(gamerScore, 50, 100);
-    } else if (onlineScore >= 60 && score < -20) {
-        // High online score + female-leaning = E-Girl
+        confidence = calculateConfidence(gamerScore, 35, 80);
+    } else if (onlineScore >= 40 && score < -10) {
+        // High online score + female-leaning = E-Girl (lowered from 60/-20)
         gender = 'E-Girl';
-        confidence = calculateConfidence(onlineScore, 60, 100);
-    } else if (onlineScore >= 70 && touchGrassScore >= 40) {
-        // Extremely online + never touches grass = Discord Mod
+        confidence = calculateConfidence(onlineScore, 40, 80);
+    } else if (onlineScore >= 50 && touchGrassScore >= 25) {
+        // Very online + doesn't touch grass = Discord Mod (lowered from 70/40)
         gender = 'Discord Mod';
-        confidence = calculateConfidence(onlineScore, 70, 120);
-    } else if (touchGrassScore >= 60 && Math.abs(score) < 60) {
-        // Maximum chronically online + neutral gender = NPC or Discord Mod
-        if (onlineScore > 40) {
+        confidence = calculateConfidence(onlineScore, 50, 100);
+    } else if (touchGrassScore >= 40 && Math.abs(score) < 50) {
+        // Chronically online + neutral gender = NPC or Discord Mod (lowered from 60/60)
+        if (onlineScore > 30) {
             gender = 'Discord Mod';
         } else {
             gender = 'NPC';
         }
-        confidence = calculateConfidence(touchGrassScore, 60, 80);
+        confidence = calculateConfidence(touchGrassScore, 40, 70);
     }
-    // Fall back to score-based determination
+    // Fall back to score-based determination (INCREASED meme gender chances)
     else if (score > 150) {
-        // High male score - small chance of Sigma/Incel based on personality
-        if (sigmaScore >= 40 && Math.random() < 0.3) {
+        // High male score - decent chance of Sigma/Incel based on personality
+        if (sigmaScore >= 25 && Math.random() < 0.45) {
             gender = 'Sigma Male';
-        } else if (bitternessScore >= 40 && Math.random() < 0.25) {
+        } else if (bitternessScore >= 25 && Math.random() < 0.4) {
             gender = 'Incel';
+        } else if (gamerScore >= 20 && Math.random() < 0.35) {
+            gender = 'Certified Gamer';
         } else {
             gender = 'Male';
         }
         confidence = calculateConfidence(score, 150, maxPossibleScore * 0.5);
     } else if (score < -150) {
-        // High female score - chance of Femcel based on personality
-        if (bitternessScore >= 40 && Math.random() < 0.3) {
+        // High female score - chance of Femcel/E-Girl based on personality
+        if (bitternessScore >= 25 && Math.random() < 0.45) {
             gender = 'Femcel';
+        } else if (onlineScore >= 25 && Math.random() < 0.4) {
+            gender = 'E-Girl';
         } else {
             gender = 'Female';
         }
         confidence = calculateConfidence(score, 150, maxPossibleScore * 0.5);
     } else if (score > 80) {
-        if (gamerScore >= 40 && Math.random() < 0.25) {
+        if (gamerScore >= 25 && Math.random() < 0.45) {
             gender = 'Certified Gamer';
-        } else if (sigmaScore >= 40 && Math.random() < 0.2) {
+        } else if (sigmaScore >= 25 && Math.random() < 0.4) {
             gender = 'Sigma Male';
+        } else if (onlineScore >= 25 && Math.random() < 0.3) {
+            gender = 'Discord Mod';
         } else {
             gender = 'Male';
         }
         confidence = calculateConfidence(score, 80, 150);
     } else if (score < -80) {
-        if (onlineScore >= 40 && Math.random() < 0.25) {
+        if (onlineScore >= 25 && Math.random() < 0.45) {
             gender = 'E-Girl';
+        } else if (bitternessScore >= 25 && Math.random() < 0.35) {
+            gender = 'Femcel';
         } else {
             gender = 'Female';
         }
         confidence = calculateConfidence(score, 80, 150);
     } else if (score > 30) {
-        if (onlineScore >= 40 && Math.random() < 0.2) {
-            gender = 'Discord Mod';
-        } else if (gamerScore >= 30 && Math.random() < 0.2) {
+        if (gamerScore >= 20 && Math.random() < 0.4) {
             gender = 'Certified Gamer';
-        } else if (bitternessScore >= 30 && Math.random() < 0.2) {
+        } else if (onlineScore >= 25 && Math.random() < 0.35) {
+            gender = 'Discord Mod';
+        } else if (sigmaScore >= 20 && Math.random() < 0.35) {
+            gender = 'Sigma Male';
+        } else if (bitternessScore >= 20 && Math.random() < 0.3) {
             gender = 'Incel';
         } else {
             gender = 'Male';
         }
         confidence = calculateConfidence(score, 30, 80);
     } else if (score < -30) {
-        if (bitternessScore >= 30 && Math.random() < 0.25) {
+        if (bitternessScore >= 20 && Math.random() < 0.4) {
             gender = 'Femcel';
-        } else if (onlineScore >= 30 && Math.random() < 0.2) {
+        } else if (onlineScore >= 20 && Math.random() < 0.4) {
             gender = 'E-Girl';
+        } else if (touchGrassScore >= 15 && Math.random() < 0.25) {
+            gender = 'Discord Mod';
         } else {
             gender = 'Female';
         }
         confidence = calculateConfidence(score, 30, 80);
     } else {
-        // Near zero = NPC or Attack Helicopter
+        // Near zero = FUN MEME GENDERS TIME! 🎉
+        // This is the zone where we give meme genders more often
         const random = Math.random();
-        if (random < 0.5) {
+        if (gamerScore >= 15 && random < 0.25) {
+            gender = 'Certified Gamer';
+        } else if (onlineScore >= 20 && random < 0.25) {
+            gender = 'Discord Mod';
+        } else if (random < 0.35) {
             gender = 'NPC';
-        } else {
+        } else if (random < 0.65) {
             gender = 'Attack Helicopter';
+        } else if (chaosEnergy >= 20) {
+            gender = 'Attack Helicopter';
+        } else {
+            // Even in neutral zone, slight lean toward meme genders
+            const memeGenders: Gender[] = ['NPC', 'Attack Helicopter', 'Discord Mod', 'Certified Gamer'];
+            gender = memeGenders[Math.floor(Math.random() * memeGenders.length)];
         }
         // For scores near zero, confidence is based on how close to zero we are
-        // Closer to zero = MORE confident it's truly indeterminate
+        // Closer to zero = MORE confident it's truly indeterminate (which is funny)
         const zeroProximity = 1 - (Math.abs(score) / 30);
-        confidence = 35 + (zeroProximity * 45) - Math.min(chaosFactor * 2, 10);
+        confidence = 40 + (zeroProximity * 40) - Math.min(chaosFactor * 2, 10);
     }
 
     // Pick a random funny message

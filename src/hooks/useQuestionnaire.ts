@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { Answer, Question, QUESTIONS } from '../types';
 import { evaluateGender, GenderResult } from '../utils/evaluateGender';
 
-const QUESTIONS_TO_ASK = 20;
+const QUESTIONS_TO_ASK = 25;
 
 function shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];
@@ -31,10 +31,11 @@ function selectBalancedQuestions(): Question[] {
     const shuffledIQ = shuffleArray(iqQuestions);
     const shuffledRegular = shuffleArray(regularQuestions);
     
-    // Take 4-6 random IQ questions, rest are personality/meme questions
-    const maxIQQuestions = Math.floor(Math.random() * 3) + 4; // 4-6 IQ questions
-    const selectedIQ = shuffledIQ.slice(0, maxIQQuestions);
-    const selectedRegular = shuffledRegular.slice(0, QUESTIONS_TO_ASK - selectedIQ.length);
+    // Take exactly 5 IQ questions + 20 personality/meme questions = 25 total
+    const numIQQuestions = 5;
+    const numPersonalityQuestions = 20;
+    const selectedIQ = shuffledIQ.slice(0, numIQQuestions);
+    const selectedRegular = shuffledRegular.slice(0, numPersonalityQuestions);
     
     // Combine and shuffle the final selection
     return shuffleArray([...selectedIQ, ...selectedRegular]);
