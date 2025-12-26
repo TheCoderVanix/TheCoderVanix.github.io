@@ -51,12 +51,12 @@ const MULTIPLIERS: Record<Risk, Record<number, number[]>> = {
 };
 
 // Canvas and layout constants
-const PEG_SPACING = 28; // Fixed spacing like your Python code
+const PEG_SPACING = 32; // Fixed spacing like your Python code
 const PEG_RADIUS = 5;
-const BALL_RADIUS = 5; // Smaller ball to fit between pegs better
+const BALL_RADIUS = 6; // Smaller ball to fit between pegs better
 const BOTTOM_PADDING = 55;
-const TOP_PADDING = 40;
-const SIDE_PADDING = 30;
+const TOP_PADDING = 50;
+const SIDE_PADDING = 50;
 const ROW_SPACING = 28;
 
 // Calculate dynamic canvas size based on rows
@@ -73,10 +73,10 @@ const getCanvasDimensions = (rows: number) => {
 
 // Physics constants (tuned for 60fps, based on your Python code)
 const GRAVITY = 650;        // Pixels per second squared (slower fall)
-const BOUNCE = 0.6;         // Bounce coefficient (bouncier)
+const BOUNCE = 0.4;         // Bounce coefficient (bouncier)
 const FRICTION = 0.995;     // Velocity damping (less friction)
 const HORIZONTAL_BOOST = 35; // Random horizontal impulse on collision
-const WALL_BOUNCE = 0.5;
+const WALL_BOUNCE = 1;
 const COLLISION_BUFFER = 2; // Extra buffer for collision detection
 
 // Audio SFX - reuse single AudioContext to prevent browser limiting
@@ -255,13 +255,9 @@ export default function Plinko() {
             // Base scale to fit container
             const scaleX = availableWidth / canvasWidth;
             const scaleY = availableHeight / canvasHeight;
-            const baseScale = Math.min(scaleX, scaleY, 1.5);
+            const scale = Math.min(scaleX, scaleY, 1.5);
             
-            // Zoom multiplier for smaller maps (makes them appear same size as 16 rows)
-            const zoomMultiplier = rows === 8 ? 1.4 : rows === 12 ? 1.2 : 1.0;
-            const finalScale = baseScale * zoomMultiplier;
-            
-            setCanvasScale(Math.max(0.4, Math.min(finalScale, 1.8)));
+            setCanvasScale(Math.max(0.4, Math.min(scale, 1.8)));
         };
 
         updateScale();
@@ -470,8 +466,9 @@ export default function Plinko() {
                                 ball.vx = (Math.random() < 0.5 ? -1 : 1) * 40;
                             }
                             
-                            // Ensure minimum downward velocity
-                            if (ball.vy < 30) ball.vy = 30;
+                            // Allow upward bounce but cap maximum upward velocity
+                            // This creates satisfying bounces while preventing balls from flying off
+                            if (ball.vy < -150) ball.vy = -150;
                         }
 
                         ball.lastCollision = 0;
