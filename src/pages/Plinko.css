@@ -344,7 +344,7 @@
 
 .canvas-wrapper {
     transform-origin: center center;
-    transition: transform 0.5s ease;
+    /* No transition - prevents off-screen flash when changing row count */
 }
 
 .plinko-canvas {
@@ -360,15 +360,17 @@
 /* Mobile Responsive - Stack vertically */
 @media (max-width: 768px) {
     .plinko-page {
-        padding: 10px;
+        padding: 2px;
+        padding-top: 0;
         overflow-x: hidden;
     }
 
     .plinko-layout {
         flex-direction: column;
         height: auto;
-        min-height: calc(100vh - 20px);
-        gap: 15px;
+        min-height: calc(100vh - 4px);
+        gap: 2px;
+        margin-top: 0;
     }
 
     .plinko-controls {
@@ -376,41 +378,50 @@
         min-width: unset;
         flex-shrink: unset;
         order: 2;
-        padding: 18px;
-        gap: 12px;
-        border-radius: 14px;
+        padding: 12px;
+        gap: 8px;
+        border-radius: 12px;
     }
 
     .plinko-title {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
+        margin: 0;
     }
 
     .balance-display {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        gap: 15px;
-        padding: 14px 18px;
+        gap: 10px;
+        padding: 10px 14px;
     }
 
     .balance-label {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
     }
 
     .balance-amount {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
 
     .plinko-game {
         order: 1;
         width: 100%;
-        padding: 10px;
-        min-height: 45vh;
-        max-height: 55vh;
+        padding: 0;
+        margin: 0;
+        min-height: 10vh;
+        max-height: 50vh;
+        align-items: flex-start !important;
+        justify-content: center;
+    }
+    
+    .canvas-wrapper {
+        margin-top: 0;
+        padding-top: 0;
     }
 
     .plinko-canvas {
-        border-radius: 12px;
+        border-radius: 10px;
     }
 
     .bet-controls {
@@ -419,13 +430,13 @@
 
     .bet-controls input {
         flex: 1 1 50%;
-        padding: 14px 10px;
+        padding: 12px 8px;
     }
 
     .bet-controls button {
         flex: 1;
-        min-width: 45px;
-        padding: 14px 10px;
+        min-width: 40px;
+        padding: 12px 8px;
     }
 
     .option-buttons button {
@@ -481,53 +492,117 @@
 
 /* Landscape mobile */
 @media (max-height: 500px) and (orientation: landscape) {
+    .plinko-page {
+        padding: 6px;
+    }
+
     .plinko-layout {
         flex-direction: row;
-        gap: 12px;
+        gap: 8px;
+        height: calc(100vh - 12px);
+        overflow: hidden;
     }
 
     .plinko-controls {
-        width: 220px;
-        min-width: 200px;
+        width: 260px;
+        min-width: 240px;
         order: 1;
-        padding: 12px;
-        gap: 8px;
+        padding: 10px;
+        gap: 6px;
+        overflow-y: auto;
+        max-height: 100%;
     }
 
     .plinko-title {
-        font-size: 1.3rem;
-        margin-bottom: 0;
+        font-size: 1.1rem;
+        margin: 0 0 2px 0;
     }
 
     .balance-display {
-        padding: 10px;
-        gap: 6px;
+        padding: 15px 10px;
+        gap: 4px;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .balance-label {
+        font-size: 0.55rem;
     }
 
     .balance-amount {
-        font-size: 1.3rem;
+        font-size: 1rem;
+    }
+
+    .last-win {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+    }
+
+    .control-group {
+        gap: 4px;
+    }
+
+    .control-group label {
+        font-size: 0.6rem;
     }
 
     .plinko-game {
         order: 2;
+        flex: 1;
     }
 
     .option-buttons button {
-        padding: 8px 6px;
+        padding: 6px 4px;
+        font-size: 0.75rem;
     }
 
-    .bet-controls input,
+    .bet-controls {
+        gap: 4px;
+    }
+
+    .bet-controls input {
+        padding: 6px;
+        font-size: 0.9rem;
+    }
+
     .bet-controls button {
-        padding: 8px;
+        padding: 6px;
+        font-size: 0.8rem;
     }
 
     .drop-btn {
-        padding: 12px;
-        font-size: 0.95rem;
+        padding: 10px;
+        font-size: 0.9rem;
+        margin-top: 4px;
     }
 
-    .control-group label {
-        font-size: 0.65rem;
+    .reset-small {
+        padding: 6px;
+        font-size: 0.7rem;
+    }
+
+    .disclaimer {
+        font-size: 0.6rem;
+        padding-top: 6px;
+    }
+
+    .game-over-panel {
+        padding: 12px;
+    }
+
+    .game-over-panel h2 {
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+
+    .game-over-panel p {
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+
+    .reset-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }
 
