@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import './Plinko.css';
 
 type Risk = 'low' | 'medium' | 'high';
@@ -777,6 +778,9 @@ export default function Plinko() {
 
     return (
         <div className="plinko-page">
+            <nav className="plinko-nav">
+                <Link to="/" className="back-link">Back to Home</Link>
+            </nav>
             <div className="plinko-layout">
                 <div className="plinko-controls">
                     <h1 className="plinko-title">🎰 Plinko</h1>

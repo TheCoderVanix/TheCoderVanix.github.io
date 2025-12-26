@@ -4,10 +4,10 @@ import './Home.css';
 
 const tools = [
     {
-        name: 'IdentityGPT™',
-        description: 'The most scientifically accurate identity test on the internet*',
+        name: 'GenderGPT™',
+        description: 'AI-powered gender identification with 100% accuracy*',
         path: '/IdentityGPT',
-        emoji: '🤖'
+        emoji: '🧬'
     },
     {
         name: 'Plinko Simulator',
